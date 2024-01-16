@@ -343,7 +343,7 @@ def repeat_on_message(message):
 #if __name__ == '__main__':
 #    bot.polling()
 
-@app.route('/' + TOKEN, methods=['POST'])
+@app.route('/' + TOKEN, methods=['PORT'])
 def get_message():
     json_string = request.get_data().decode('utf-8')
     update = telebot.types.Update.de_json(json_string)
