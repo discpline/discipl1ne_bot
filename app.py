@@ -330,7 +330,7 @@ def get_message():
 @app.route('/')
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://december-discipl1ne-bot-0c7124aec2d9.herokuapp.com/' + TOKEN)
+    bot.set_webhook(url='https://bot-discipline-f7313fe78025.herokuapp.com/' + TOKEN)
     return 'Test Bot', 200
 
 
