@@ -1,0 +1,8 @@
+FullStack Developer; https://prog.academy/ua/fullstack
+Java Developer; https://prog.academy/ua/java
+Front-End Developer; https://prog.academy/ua/frontend
+Python Developer; https://prog.academy/ua/python
+C# Developer; https://prog.academy/ua/csharp
+Web & UI/UX Design; https://prog.academy/ua/web-design
+QA; https://prog.academy/ua/qa
+DevOps Engineer; https://prog.academy/ua/devops

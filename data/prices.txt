@@ -1,0 +1,8 @@
+FullStack Developer; 52200 грн
+Java Developer; 20000 грн
+Front-End Developer; 20001 грн
+Python Developer; 20002 грн
+C# Developer; 20003 грн
+Web & UI/UX Design; 20004 грн
+QA; 20005 грн
+DevOps Engineer; 20006 грн

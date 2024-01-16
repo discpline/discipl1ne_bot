@@ -1,0 +1,15 @@
+FullStack Developer; 01.12.2023
+Java Developer - Start; 02.12.2023
+Java Developer - OOP; 03.12.2023
+Java Developer - Pro; 04.12.2023
+Front-End Developer - HTML/CSS; 05.12.2023
+Front-End Developer - JS; 06.12.2023
+Python Developer - Start; 07.12.2023
+Python Developer - Pro; 08.12.2023
+C# Developer; 09.12.2023
+Web & UI/UX Design; 10.12.2023
+Web & UI/UX Design - HTML/CSS; 11.12.2023
+QA - Start; 11.12.2023
+QA - Java; 11.12.2023
+QA - Auto; 11.12.2023
+DevOps Engineer; 12.12.2023
