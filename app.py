@@ -358,5 +358,5 @@ def webhook():
     return 'Test Bot', 200
 
 
-if __name__ == 'main':
+if __name__ == '__main__':
     app.run(host='0.0.0.0', post=int(os.environ.get('POST', 5000)))
