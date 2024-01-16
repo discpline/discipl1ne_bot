@@ -15,19 +15,18 @@ from dotenv import load_dotenv
 import os
 
 
-#dices = 🎲🎯🎰
 dices = ['🎲', '🎯', '🎰']
 subscribed_users = {}
 
 warnings.simplefilter("ignore", category=UserWarning)
 
-# API для отримання курсів валют
+
 currency_api_url = 'https://api.exchangerate-api.com/v4/latest/USD'
 
-# Список валют, які ми будемо виводити
+
 currencies_to_display = ['EUR', 'GBP', 'JPY', 'UAH', 'RUB']
 
-load_dotenv('.env')
+load_dotenv()
 TOKEN = os.environ.get('TOKEN')
 load_dotenv()
 my_chat_id = 718425574
@@ -95,7 +94,6 @@ def handle_start(message):
     keyboard.add(telebot.types.KeyboardButton('/weather'))
     keyboard.add(telebot.types.KeyboardButton('/wiki'))
     keyboard.add(telebot.types.KeyboardButton('/register'))
-    #keyboard.add(telebot.types.KeyboardButton('/list_users'))
     bot.reply_to(message, 'Ось мої команди (їх можна '
                           'гортати вниз), для того щоб дізнатися, що вони роблять раджу ввести команду:\n '
                           '/start, там я повністю вам все розповіла:', reply_markup=keyboard)
@@ -192,22 +190,6 @@ def wiki(message):
     bot.register_next_step_handler(message, process_wiki_request)
 
 
-#def process_wiki_request(message):
-#    try:
-#        search_result = wikipedia.summary(message.text, sentences=3)  # пример, возвращает первые 3 предложения статьи
-#        bot.send_message(message.chat.id, search_result)
-#    except wikipedia.exceptions.DisambiguationError as e:
-#
-#        bot.send_message(message.chat.id, f"По вашому запиту знайдено декілька варіантів. Будь ласка, уточніть запит.")
-#    except wikipedia.exceptions.HTTPTimeoutError as e:
-#
-#        bot.send_message(message.chat.id, "Вікіпедія недоступна в данний момент. Будь ласка, спробуйте пізніше.")
-#    except wikipedia.exceptions.PageError as e:
-#
-#        bot.send_message(message.chat.id, "По вашому запиту нічого не знайдено. Будь ласка, уточніть запит.")
-#    except Exception as e:
-
-#        bot.send_message(message.chat.id, "Виникла помилка при пошуку в Вікіпедії. Будь ласка, спробуйте пізніше.")
 
 def process_wiki_request(message):
     query = message.text
@@ -336,14 +318,8 @@ def repeat_on_message(message):
         play(message)
 
 
-#conn.close()
-#conn_2.close()
 
-
-#if __name__ == '__main__':
-#    bot.polling()
-
-@app.route('/' + TOKEN, methods=['PORT'])
+@app.route('/' + TOKEN, methods=['POST'])
 def get_message():
     json_string = request.get_data().decode('utf-8')
     update = telebot.types.Update.de_json(json_string)
