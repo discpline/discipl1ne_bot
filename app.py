@@ -13,7 +13,7 @@ import time
 import warnings
 from dotenv import load_dotenv
 import os
-from subscription_handlers import subscribe, unsubscribe
+
 
 
 dices = ['🎲', '🎯', '🎰']
@@ -100,8 +100,20 @@ def handle_start(message):
                           '/start, там я повністю вам все розповіла:', reply_markup=keyboard)
 
 
-bot.message_handler(commands=['subscribe'])(lambda message: subscribe(bot, cursor_2, conn, message))
-bot.message_handler(commands=['unsubscribe'])(lambda message: unsubscribe(bot, cursor_2, conn_2, message))
+@bot.message_handler(commands=['subscribe'])
+def subscribe(message):
+    user_id = message.from_user.id
+    cursor_2.execute('INSERT OR REPLACE INTO subscribers (user_id) VALUES (?);', (user_id,))
+    conn.commit()
+    bot.send_message(user_id, 'Ви підписані на отримання сповіщень!')
+
+
+@bot.message_handler(commands=['unsubscribe'])
+def unsubscribe(message):
+    user_id = message.from_user.id
+    cursor_2.execute('DELETE FROM subscribers WHERE user_id = ?;', (user_id,))
+    conn_2.commit()
+    bot.send_message(user_id, 'Ви відписались від отримання сповіщень.')
 
 
 
