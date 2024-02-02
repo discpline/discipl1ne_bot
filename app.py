@@ -16,6 +16,7 @@ import os
 from subscription_handlers import subscribe, unsubscribe
 from notification_handlers import send_notification
 from weather_handlers import get_weather
+from cat_handlers import cats
 
 
 
@@ -117,11 +118,6 @@ def handle_unsubscribe(message):
 def handle_send_notification(message):
     send_notification(bot, cursor_2, my_chat_id, message)
 
-
-
-def cats():
-    cat_list = ['1.jpg', '2.jpg', '3.jpg', '4.jpg']
-    return random.choice(cat_list)
 
 
 @bot.message_handler(commands=['cats'])
