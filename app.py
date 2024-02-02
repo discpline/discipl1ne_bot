@@ -17,6 +17,7 @@ from subscription_handlers import subscribe, unsubscribe
 from notification_handlers import send_notification
 from weather_handlers import get_weather
 from cat_handlers import cats
+from service_handlers import send_request, send_service, send_bug, get_currency_rates, play
 
 
 
@@ -197,44 +198,7 @@ def list_users(message):
             bot.send_message(message.chat.id, 'Немає зареєстрованих користувачів.')
 
 
-def send_request(message):
-    for_me = f'Нова заявка: {message.text}'
-    bot.send_message(my_chat_id, for_me)
-    bot.send_message(message.chat.id, 'Дякую за заяву! Очікуйте лист на електронну адресу!')
 
-
-def send_service(message):
-    bot.send_message(message.chat.id, '1. Замовити телеграм чат бота зі своїми вимогами: 1500 - 2500 UAH')
-    bot.send_message(message.chat.id, '2. Замовити бекенд розробку для вашого сайту: 2300 - 3500 UAH')
-    bot.send_message(message.chat.id, '3. Домовитись з розробником на кастомний проект: 1000 - 6000 UAH')
-
-
-def send_bug(message):
-    bug_user = f'Баг/Некоректна робота: {message.text}'
-    bot.send_message(my_chat_id, bug_user)
-    bot.send_message(message.chat.id, 'Дякую за допомогу в коректній роботі бота!')
-
-
-def get_currency_rates(message):
-    try:
-        response = requests.get(currency_api_url)
-        data = response.json()
-
-        if 'rates' in data:
-            rates = {currency: data['rates'][currency] for currency in currencies_to_display}
-            rates_text = '\n'.join([f'{currency}: {rate}' for currency, rate in rates.items()])
-            bot.reply_to(message, f'Актуальні курси валют до доллару:\n{rates_text}')
-        else:
-            bot.reply_to(message, 'Не вдалося отримати актуальні курси валют.')
-
-    except Exception as e:
-        print(e)
-        bot.reply_to(message, 'Сталася помилка при обробці запиту. Спробуйте ще раз пізніше.')
-
-
-def play(message):
-    new_dice = random.choice(dices)
-    bot.send_dice(message.chat.id, new_dice)
 
 
 @bot.message_handler(content_types=['text'])
@@ -252,21 +216,21 @@ def repeat_on_message(message):
     if message.text.lower() == 'залишити заяву':
         bot.send_message(message.chat.id, 'Рада вас обслуговувати, вкажіть свою пошту та ініціали, по яким до'
                                           'вас можна звернутися! А також, що ви бажаєте замовити.')
-        bot.register_next_step_handler(message, send_request)
+        bot.register_next_step_handler(message, lambda msg: send_request(bot, my_chat_id, msg))
 
     if message.text.lower() == 'список послуг':
-        send_service(message)
+        send_service(bot, message)
 
     if message.text.lower() == 'вказати на баг':
         bot.send_message(message.chat.id, 'Ви знайшли якийсь баг чи некоректну роботу? Напишіть будь ласка, '
                                           'що і де працює некоректно, ми все виправимо!')
-        bot.register_next_step_handler(message, send_bug)
+        bot.register_next_step_handler(message, lambda msg: send_bug(bot, my_chat_id, msg))
 
     if message.text.lower() == 'курс валют':
-        get_currency_rates(message)
+        get_currency_rates(bot, message, currency_api_url, currencies_to_display)
 
     if message.text.lower() == 'зіграти в рандом':
-        play(message)
+        play(bot, message, dices)
 
 
 
