@@ -14,6 +14,7 @@ import warnings
 from dotenv import load_dotenv
 import os
 from subscription_handlers import subscribe, unsubscribe
+from notification_handlers import send_notification
 
 
 
@@ -112,28 +113,8 @@ def handle_unsubscribe(message):
 
 
 @bot.message_handler(commands=['send_notification'])
-def send_notification(message):
-
-    admin_id = my_chat_id
-    if message.from_user.id == admin_id:
-        bot.send_message(message.chat.id, 'Введіть текст сповіщення для підписників.')
-        bot.register_next_step_handler(message, handle_notification_input)
-    else:
-        bot.send_message(message.chat.id, 'Ви не маєте прав для відправлення сповіщень.')
-
-
-
-def handle_notification_input(message):
-    notification_text = message.text
-    cursor_2.execute('SELECT user_id FROM subscribers')
-    subscribed_users = cursor_2.fetchall()
-
-    for user_id in subscribed_users:
-        bot.send_message(user_id[0], f'🔔 Адміністратор надіслав сповіщення! {notification_text}')
-        print(f'Сповіщення надіслано користувачу {user_id[0]}.')
-
-    bot.send_message(my_chat_id, 'Сповіщення відправлено підписникам.')
-    print('Сповіщення надіслано всім підписникам.')
+def handle_send_notification(message):
+    send_notification(bot, cursor_2, my_chat_id, message)
 
 
 
