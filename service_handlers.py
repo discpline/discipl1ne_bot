@@ -1,7 +1,19 @@
 import requests
 import random
 
-def send_request(bot, my_chat_id, message):
+
+def send_request(bot, my_chat_id: int, message) -> None:
+    """
+        Відправляє повідомлення з новою заявкою.
+
+        Parameters:
+            bot (Bot): Екземпляр бота Telegram.
+            my_chat_id (int): ID чату адміністратора.
+            message (Message): Повідомлення з заявкою.
+
+        Returns:
+            None
+        """
     for_me = f'Нова заявка: {message.text}'
     bot.send_message(my_chat_id, for_me)
     bot.send_message(message.chat.id, 'Дякую за заяву! Очікуйте лист на електронну адресу!')
