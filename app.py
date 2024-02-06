@@ -106,23 +106,58 @@ def handle_start(message):
 
 
 @bot.message_handler(commands=['subscribe'])
-def handle_subscribe(message):
+def handle_subscribe(message) -> None:
+    """
+    Обробляє команду підписки користувача на отримання сповіщень.
+
+    Parameters:
+        message (Message): Повідомлення від користувача.
+
+    Returns:
+        None
+    """
     subscribe(bot, cursor_2, conn_2, message)
 
+
 @bot.message_handler(commands=['unsubscribe'])
-def handle_unsubscribe(message):
+def handle_unsubscribe(message) -> None:
+    """
+    Обробляє команду відписки користувача від отримання сповіщень.
+
+    Parameters:
+        message (Message): Повідомлення від користувача.
+
+    Returns:
+        None
+    """
     unsubscribe(bot, cursor_2, conn_2, message)
 
 
-
 @bot.message_handler(commands=['send_notification'])
-def handle_send_notification(message):
+def handle_send_notification(message) -> None:
+    """
+    Обробляє команду відправки сповіщення підписникам.
+
+    Parameters:
+        message (Message): Повідомлення від адміністратора.
+
+    Returns:
+        None
+    """
     send_notification(bot, cursor_2, my_chat_id, message)
 
 
-
 @bot.message_handler(commands=['cats'])
-def show_cats(message):
+def show_cats(message) -> None:
+    """
+    Обробляє команду відправки випадкового зображення кота.
+
+    Parameters:
+        message (Message): Повідомлення від користувача.
+
+    Returns:
+        None
+    """
     cat_random = cats()  # Отримайте випадкове фото кота
     bot.send_message(message.chat.id, 'Всім подобаються котики, і ось випадкові зображення котиків, якими '
                                       'я володію, просто подивіться та розслабтеся.')
@@ -130,20 +165,45 @@ def show_cats(message):
         bot.send_photo(message.chat.id, photo)
 
 
-
 @bot.message_handler(commands=['weather'])
-def handle_weather(message):
+def handle_weather(message) -> None:
+    """
+    Обробляє команду для отримання погоди.
+
+    Parameters:
+        message (Message): Повідомлення від користувача.
+
+    Returns:
+        None
+    """
     get_weather(bot, message, API)
 
 
 @bot.message_handler(commands=['wiki'])
-def wiki(message):
+def wiki(message) -> None:
+    """
+    Обробляє команду для пошуку інформації у Вікіпедії.
+
+    Parameters:
+        message (Message): Повідомлення від користувача.
+
+    Returns:
+        None
+    """
     bot.send_message(message.chat.id, 'Введіть ваш запит для пошуку у вікіпедії.')
     bot.register_next_step_handler(message, process_wiki_request)
 
 
+def process_wiki_request(message) -> None:
+    """
+    Обробляє запит користувача та відправляє результати пошуку.
 
-def process_wiki_request(message):
+    Parameters:
+        message (Message): Повідомлення від користувача.
+
+    Returns:
+        None
+    """
     query = message.text
     try:
         page = wikipedia.page(query)
@@ -160,14 +220,32 @@ def process_wiki_request(message):
 
 
 @bot.message_handler(commands=['register'])
-def start_register(message):
+def start_register(message) -> None:
+    """
+    Обробляє команду для початку реєстрації користувача.
+
+    Parameters:
+        message (Message): Повідомлення від користувача.
+
+    Returns:
+        None
+    """
     #user_id = message.from_user.id
 
     bot.send_message(message.chat.id, 'Для регістрації введіть свій номер телефону (в форматі +1234567890):')
     bot.register_next_step_handler(message, process_phone_input)
 
 
-def process_phone_input(message):
+def process_phone_input(message) -> None:
+    """
+    Обробляє введений користувачем номер телефону для реєстрації.
+
+    Parameters:
+        message (Message): Повідомлення від користувача з номером телефону.
+
+    Returns:
+        None
+    """
     user_id = message.from_user.id
     username = message.from_user.username
     phone_number = message.text
@@ -187,7 +265,16 @@ def process_phone_input(message):
 
 
 @bot.message_handler(commands=['list_users'])
-def list_users(message):
+def list_users(message) -> None:
+    """
+    Обробляє команду для виведення списку зареєстрованих користувачів.
+
+    Parameters:
+        message (Message): Повідомлення від адміністратора.
+
+    Returns:
+        None
+    """
     cursor.execute('SELECT * FROM users')
     users = cursor.fetchall()
     if message.chat.id == my_chat_id:
@@ -198,11 +285,18 @@ def list_users(message):
             bot.send_message(message.chat.id, 'Немає зареєстрованих користувачів.')
 
 
-
-
-
 @bot.message_handler(content_types=['text'])
-def repeat_on_message(message):
+def repeat_on_message(message) -> None:
+    """
+    Повторює повідомлення користувача або відповідає на команди.
+    В нашому випадку виконує команди в залежності від повідомлення користувача.
+
+    Parameters:
+        message (Message): Повідомлення від користувача.
+
+    Returns:
+        None
+    """
     if message.text.lower() == 'посилання на розробника':
         keyboard = telebot.types.InlineKeyboardMarkup()
         url_button = telebot.types.InlineKeyboardButton(text='Посилання на інстаграм розробника',
@@ -231,7 +325,6 @@ def repeat_on_message(message):
 
     if message.text.lower() == 'зіграти в рандом':
         play(bot, message, dices)
-
 
 
 @app.route('/' + TOKEN, methods=['POST'])
