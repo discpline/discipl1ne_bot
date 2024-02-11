@@ -1,15 +1,7 @@
 from flask import Flask, request
 import sqlite3
 import telebot
-import base_functions
-import requests
-import json
 import wikipedia
-import requests
-import random
-import schedule
-import threading
-import time
 import warnings
 from dotenv import load_dotenv
 import os
@@ -27,7 +19,7 @@ subscribed_users = {}
 warnings.simplefilter("ignore", category=UserWarning)
 
 
-currency_api_url = 'https://api.exchangerate-api.com/v4/latest/USD'
+currency_api_url = os.environ.get('currency_api_url')
 
 
 currencies_to_display = ['EUR', 'GBP', 'JPY', 'UAH', 'RUB']
@@ -35,7 +27,7 @@ currencies_to_display = ['EUR', 'GBP', 'JPY', 'UAH', 'RUB']
 load_dotenv()
 TOKEN = os.environ.get('TOKEN')
 load_dotenv()
-my_chat_id = 718425574
+my_chat_id = os.environ.get('my_chat_id')
 
 
 conn = sqlite3.connect('users.db', check_same_thread=False)
@@ -58,7 +50,7 @@ cursor.execute('''
 conn.commit()
 
 bot = telebot.TeleBot(TOKEN)
-API = '3d9de74844d28377e81415151cbe6a66'
+API = os.environ.get('API')
 wikipedia.set_lang('uk')
 app = Flask(__name__)
 

@@ -38,11 +38,11 @@ def process_weather_request(bot, message, API) -> None:
         bot.reply_to(message, f'Зараз погода: {temp} градусів за цельсієм')
 
         if temp < 0.0:
-            image = 'cold.png'
+            image = 'templates/weather/cold.png'
         elif 0.0 <= temp <= 14.0:
-            image = 'clouds.png'
+            image = 'templates/weather/clouds.png'
         else:
-            image = 'sunny.png'
+            image = 'templates/weather/sunny.png'
 
         file = open(image, 'rb')
         bot.send_photo(message.chat.id, file)
